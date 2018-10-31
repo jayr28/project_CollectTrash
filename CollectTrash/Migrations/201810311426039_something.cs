@@ -3,7 +3,7 @@ namespace CollectTrash.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class something : DbMigration
     {
         public override void Up()
         {
@@ -16,15 +16,17 @@ namespace CollectTrash.Migrations
                         FirstName = c.String(),
                         LastName = c.String(),
                         Address = c.String(),
-                        Zipcode = c.Int(nullable: false),
+                        ZipcodeId = c.Int(nullable: false),
                         EmailAddress = c.String(),
-                        ChosenDates = c.DateTime(),
-                        ExtraChosenDates = c.DateTime(),
+                        PickUpDate = c.DateTime(),
+                        ExtraPickUpDate = c.DateTime(),
                         Balance = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
-                .Index(t => t.UserId);
+                .ForeignKey("dbo.ZipCodes", t => t.ZipcodeId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.ZipcodeId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -85,6 +87,15 @@ namespace CollectTrash.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.ZipCodes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        PostalCode = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Employees",
                 c => new
                     {
@@ -92,14 +103,16 @@ namespace CollectTrash.Migrations
                         UserId = c.String(maxLength: 128),
                         EmailAddress = c.String(),
                         ListNames = c.String(),
-                        ListZipcode = c.Int(nullable: false),
+                        ZipcodeId = c.Int(nullable: false),
                         PickupDates = c.DateTime(nullable: false),
                         Balance = c.Double(nullable: false),
                         Status = c.String(),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
-                .Index(t => t.UserId);
+                .ForeignKey("dbo.ZipCodes", t => t.ZipcodeId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.ZipcodeId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -116,21 +129,26 @@ namespace CollectTrash.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Employees", "ZipcodeId", "dbo.ZipCodes");
             DropForeignKey("dbo.Employees", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Customers", "ZipcodeId", "dbo.ZipCodes");
             DropForeignKey("dbo.Customers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Employees", new[] { "ZipcodeId" });
             DropIndex("dbo.Employees", new[] { "UserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Customers", new[] { "ZipcodeId" });
             DropIndex("dbo.Customers", new[] { "UserId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Employees");
+            DropTable("dbo.ZipCodes");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

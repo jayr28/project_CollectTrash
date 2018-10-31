@@ -12,11 +12,13 @@ namespace CollectTrash.Models
         [Key]
         public int ID { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId{get; set;}
+        public string UserId {get; set;}
         public ApplicationUser ApplicationUser { get; set; }
         public string EmailAddress { get; set; }
         public string ListNames { get; set;  }
-        public int Zipcode { get; set; }
+        [ForeignKey("ZipCode")]
+        public int ZipcodeId { get; set; }
+        public ZipCode ZipCode { get; set; }
         public DateTime PickupDates { get; set; }
         public double Balance { get; set; }
         public string Status { get; set; }

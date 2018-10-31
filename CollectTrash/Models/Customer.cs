@@ -17,7 +17,9 @@ namespace CollectTrash.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
-        public int Zipcode { get; set; }
+        [ForeignKey("ZipCode")]
+        public int ZipcodeId { get; set; }
+        public ZipCode ZipCode { get; set; }
    
         public string EmailAddress { get; set; }
         public DateTime? PickUpDate { get; set; }
