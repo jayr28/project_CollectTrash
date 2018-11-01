@@ -202,9 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810311426039_something.cs" />
-    <Compile Include="Migrations\201810311426039_something.Designer.cs">
-      <DependentUpon>201810311426039_something.cs</DependentUpon>
+    <Compile Include="Migrations\201810311956298_reset customer and employee tables.cs" />
+    <Compile Include="Migrations\201810311956298_reset customer and employee tables.Designer.cs">
+      <DependentUpon>201810311956298_reset customer and employee tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -295,8 +295,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810311426039_something.resx">
-      <DependentUpon>201810311426039_something.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810311956298_reset customer and employee tables.resx">
+      <DependentUpon>201810311956298_reset customer and employee tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

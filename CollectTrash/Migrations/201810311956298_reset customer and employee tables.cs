@@ -3,7 +3,7 @@ namespace CollectTrash.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class something : DbMigration
+    public partial class resetcustomerandemployeetables : DbMigration
     {
         public override void Up()
         {
