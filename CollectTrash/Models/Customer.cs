@@ -9,16 +9,16 @@ namespace CollectTrash.Models
 {
     public class Customer
     {
+        
+        
         [Key]
-        public int ID { get; set; }
-        [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+       // public ApplicationUser ApplicationUser { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
         [ForeignKey("ZipCode")]
-        public int ZipcodeId { get; set; }
+        public int PostalCode { get; set; }
         public ZipCode ZipCode { get; set; }
    
         public string EmailAddress { get; set; }

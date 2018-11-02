@@ -43,22 +43,27 @@ namespace CollectTrash.Controllers
 
         // POST: Customer/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Address,Zipcode,EmailAddress")] Customer customer)
+        public ActionResult Create([Bind(Include ="UserId,FirstName,LastName,Address,PostalCode,EmailAddress,PickUpDate,ExtraPickUpDate")]  Customer customer)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    
+
                     db.Customer.Add(customer);
                     db.SaveChanges();
                 }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View("Create", customer);
+                //return View("Create", customer);
+                throw ex;
+            }
+            finally
+            {
+               //View("Create", customer);
             }
         }
 

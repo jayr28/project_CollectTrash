@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System.Linq;
 
 [assembly: OwinStartupAttribute(typeof(CollectTrash.Startup))]
 namespace CollectTrash
@@ -19,22 +20,23 @@ namespace CollectTrash
         {
             ApplicationDbContext context = new ApplicationDbContext();
 
-            var Employee = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var User = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+          
 
-            if (!Employee.RoleExists("Employee"))
+            if (!roleManager.RoleExists("Employee"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Employee";
-                Employee.Create(role);
+                roleManager.Create(role);
             }
 
-            //if (!User.
-            //{
-            //    var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            //    role.Name = "Customer";
-            //    User.Create(role);
-            //}
+            if (!roleManager.RoleExists("Customer"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Customer";
+                roleManager.Create(role);
+            }
         }
     }
 }

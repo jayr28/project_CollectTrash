@@ -3,7 +3,7 @@ namespace CollectTrash.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class resetcustomerandemployeetables : DbMigration
+    public partial class edittable : DbMigration
     {
         public override void Up()
         {
@@ -11,16 +11,41 @@ namespace CollectTrash.Migrations
                 "dbo.Customers",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        UserId = c.String(maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         FirstName = c.String(),
                         LastName = c.String(),
                         Address = c.String(),
-                        ZipcodeId = c.Int(nullable: false),
+                        PostalCode = c.Int(nullable: false),
                         EmailAddress = c.String(),
                         PickUpDate = c.DateTime(),
                         ExtraPickUpDate = c.DateTime(),
                         Balance = c.Double(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.ZipCodes", t => t.PostalCode, cascadeDelete: true)
+                .Index(t => t.PostalCode);
+            
+            CreateTable(
+                "dbo.ZipCodes",
+                c => new
+                    {
+                        PostalCode = c.Int(nullable: false, identity: false),
+                        City = c.String(),
+                    })
+                .PrimaryKey(t => t.PostalCode);
+            
+            CreateTable(
+                "dbo.Employees",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        UserId = c.String(maxLength: 128),
+                        EmailAddress = c.String(),
+                        ListNames = c.String(),
+                        ZipcodeId = c.Int(nullable: false),
+                        PickupDates = c.DateTime(nullable: false),
+                        Balance = c.Double(nullable: false),
+                        Status = c.String(),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
@@ -87,34 +112,6 @@ namespace CollectTrash.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.ZipCodes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        PostalCode = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Employees",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        UserId = c.String(maxLength: 128),
-                        EmailAddress = c.String(),
-                        ListNames = c.String(),
-                        ZipcodeId = c.Int(nullable: false),
-                        PickupDates = c.DateTime(nullable: false),
-                        Balance = c.Double(nullable: false),
-                        Status = c.String(),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
-                .ForeignKey("dbo.ZipCodes", t => t.ZipcodeId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.ZipcodeId);
-            
-            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -131,28 +128,26 @@ namespace CollectTrash.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Employees", "ZipcodeId", "dbo.ZipCodes");
             DropForeignKey("dbo.Employees", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Customers", "ZipcodeId", "dbo.ZipCodes");
-            DropForeignKey("dbo.Customers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Customers", "PostalCode", "dbo.ZipCodes");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Employees", new[] { "ZipcodeId" });
-            DropIndex("dbo.Employees", new[] { "UserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Customers", new[] { "ZipcodeId" });
-            DropIndex("dbo.Customers", new[] { "UserId" });
+            DropIndex("dbo.Employees", new[] { "ZipcodeId" });
+            DropIndex("dbo.Employees", new[] { "UserId" });
+            DropIndex("dbo.Customers", new[] { "PostalCode" });
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Employees");
-            DropTable("dbo.ZipCodes");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Employees");
+            DropTable("dbo.ZipCodes");
             DropTable("dbo.Customers");
         }
     }

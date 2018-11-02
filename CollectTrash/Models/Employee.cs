@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CollectTrash.Models
 {
@@ -23,5 +24,9 @@ namespace CollectTrash.Models
         public double Balance { get; set; }
         public string Status { get; set; }
 
+        internal static void Create(IdentityRole role)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

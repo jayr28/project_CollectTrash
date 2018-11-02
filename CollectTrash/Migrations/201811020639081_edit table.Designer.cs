@@ -7,13 +7,13 @@ namespace CollectTrash.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class resetcustomerandemployeetables : IMigrationMetadata
+    public sealed partial class edittable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(resetcustomerandemployeetables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(edittable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810311956298_reset customer and employee tables"; }
+            get { return "201811020639081_edit table"; }
         }
         
         string IMigrationMetadata.Source
